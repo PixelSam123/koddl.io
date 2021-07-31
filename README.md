@@ -1,21 +1,14 @@
-# fastify-ejs-template
+# koddl.io
 
-Minimal Fastify template using the [EJS view engine](https://github.com/mde/ejs), plus [nodemon](https://github.com/remy/nodemon) and [pino-colada](https://github.com/lrlna/pino-colada) for development, partially based on Fastify CLI's generate command
+Skribbl.io, but with a code editor instead of a drawpad.  
+This is currently in Indonesian - I might write a translation
 
 ---
 
-## Initial setup
+## Deployment links
 
-Change `name`, `author` and `license` in package.json to what you want.
+Heroku: <https://koddl-io.herokuapp.com>
 
-## Running the server
+## Running app locally
 
-Simply run `npm start` or `npm run dev` according to your needs.
-
-## Registering plugins
-
-Register the plugins you need after the three plugins (`fastify-sensible`, `fastify-static` and `point-of-view`) already listed in app.js under the comment `// Register your plugins here`
-
-## Suggestions!
-
-Feel free to leave suggestions as issues or pull requests.
+Use `npm run start` or `npm run dev`
