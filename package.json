@@ -1,0 +1,26 @@
+{
+  "name": "koddl.io",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node .",
+    "dev": "nodemon . | pino-colada"
+  },
+  "keywords": [],
+  "author": "FADHsquared",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "fastify": "^3.19.2",
+    "fastify-autoload": "^3.8.0",
+    "fastify-favicon": "^3.1.0",
+    "fastify-socket.io": "^2.0.0",
+    "fastify-static": "^4.2.2",
+    "point-of-view": "^4.15.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12",
+    "pino-colada": "^2.1.0"
+  }
+}
