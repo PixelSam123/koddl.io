@@ -54,17 +54,11 @@ module.exports = class extends EventEmitter {
     this.#pointsLowLimit = pointsLowLimit
   }
 
-  #refreshPlayerTurnIndex() {
-    this.#currentPlayerTurnIndex = 0
-  }
   #refreshPickList() {
     this.#currentPickList = helper.pickWords(this.#pickListCount)
   }
   #refreshTurnPoints() {
     this.#currentTurnPoints = this.#basePoints
-  }
-  #resetCurrentWord() {
-    this.#currentWord = null
   }
   #getCurrentPlayerInTurnID() {
     return this.#playerIDArray[this.#currentPlayerTurnIndex]
@@ -77,10 +71,7 @@ module.exports = class extends EventEmitter {
 
     this.#visualTimerObject = setInterval(() => {
       durationLeft--
-      if (
-        this.#currentWord !== null &&
-        durationLeft <= this.#turnDuration - this.#startRevealingCharsAfter
-      )
+      if (this.#currentWord !== null && durationLeft <= this.#turnDuration - this.#startRevealingCharsAfter)
         this.#hiddenWord = helper.unhideRandomCharacterByChance(this.#hiddenWord, this.#currentWord)
       this.emit('visual-timer-tick', durationLeft, this.#hiddenWord)
     }, 1000)
@@ -102,7 +93,7 @@ module.exports = class extends EventEmitter {
 
   #newRound() {
     this.#currentRoundNumber++
-    this.#refreshPlayerTurnIndex()
+    this.#currentPlayerTurnIndex = 0
   }
 
   #startTurn() {
@@ -157,7 +148,7 @@ module.exports = class extends EventEmitter {
         })),
         this.#currentWord
       )
-      this.#resetCurrentWord()
+      this.#currentWord = null
 
       // Checks for starting a new turn, a new round OR ending the game
       this.#startVisualTimer(this.#endTurnScreenDuration)
@@ -197,8 +188,7 @@ module.exports = class extends EventEmitter {
     this.#playerList.get(id).points += this.#currentTurnPoints
 
     // Player currently in turn (coder)
-    this.#currentTurnPlayerList.get(this.#getCurrentPlayerInTurnID()).currentPoints +=
-      this.#pointsDecrementer
+    this.#currentTurnPlayerList.get(this.#getCurrentPlayerInTurnID()).currentPoints += this.#pointsDecrementer
     this.#playerList.get(this.#getCurrentPlayerInTurnID()).points += this.#pointsDecrementer
 
     // Calculate positions (TEMPORARY IMPEMENTATION, same points will result in a draw for now.)
@@ -214,8 +204,7 @@ module.exports = class extends EventEmitter {
     // If everybody has answered, end the turn
     if (this.#currentTurnPlayerList.size === this.#playerList.size) this.#endTurn()
 
-    if (this.#currentTurnPoints > this.#pointsLowLimit)
-      this.#currentTurnPoints -= this.#pointsDecrementer
+    if (this.#currentTurnPoints > this.#pointsLowLimit) this.#currentTurnPoints -= this.#pointsDecrementer
   }
 
   addPlayer(id, displayName) {
@@ -240,11 +229,7 @@ module.exports = class extends EventEmitter {
   }
 
   hasPlayerAnswered(id) {
-    return (
-      this.#turnIsOngoing &&
-      this.#currentTurnPlayerList.has(id) &&
-      id !== this.#getCurrentPlayerInTurnID()
-    )
+    return this.#turnIsOngoing && this.#currentTurnPlayerList.has(id) && id !== this.#getCurrentPlayerInTurnID()
   }
   checkPlayerMessage(id, message) {
     if (id === this.#getCurrentPlayerInTurnID() || this.hasPlayerAnswered(id)) return false
