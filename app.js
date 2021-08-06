@@ -24,12 +24,12 @@ fastify.register(require('fastify-static'), {
   prefix: '/public/',
 })
 
-// Enable EJS usage
+// Enable Nunjucks usage
 fastify.register(require('point-of-view'), {
   engine: {
-    ejs: require('ejs'),
+    nunjucks: require('nunjucks'),
   },
-  root: 'views',
+  root: path.join(__dirname, 'views'),
 })
 
 // Autoload routes
