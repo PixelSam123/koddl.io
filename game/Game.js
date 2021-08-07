@@ -60,7 +60,8 @@ module.exports = class extends EventEmitter {
   #refreshTurnPoints() {
     this.#currentTurnPoints = this.#basePoints
   }
-  #getCurrentPlayerInTurnID() {
+
+  getCurrentPlayerInTurnID() {
     return this.#playerIDArray[this.#currentPlayerTurnIndex]
   }
 
@@ -82,7 +83,7 @@ module.exports = class extends EventEmitter {
 
   #startPickWordTimeout() {
     this.#pickWordTimeoutObject = setTimeout(() => {
-      this.pickWord(this.#getCurrentPlayerInTurnID(), 0)
+      this.pickWord(this.getCurrentPlayerInTurnID(), 0)
     }, this.#pickWordDuration * 1000)
   }
   #startEndTurnTimeout() {
@@ -104,14 +105,14 @@ module.exports = class extends EventEmitter {
       this.#refreshPickList()
       this.#refreshTurnPoints()
 
-      this.#currentTurnPlayerList.set(this.#getCurrentPlayerInTurnID(), {
+      this.#currentTurnPlayerList.set(this.getCurrentPlayerInTurnID(), {
         currentPoints: 0,
       })
       this.emit(
         'turn-start',
-        this.#getCurrentPlayerInTurnID(),
+        this.getCurrentPlayerInTurnID(),
         this.#currentPickList,
-        this.#playerList.get(this.#getCurrentPlayerInTurnID()).displayName
+        this.#playerList.get(this.getCurrentPlayerInTurnID()).displayName
       )
 
       this.#startVisualTimer(this.#pickWordDuration)
@@ -120,12 +121,12 @@ module.exports = class extends EventEmitter {
     }
   }
   pickWord(id, index) {
-    if (id === this.#getCurrentPlayerInTurnID() && this.#currentWord === null) {
+    if (id === this.getCurrentPlayerInTurnID() && this.#currentWord === null) {
       this.#stopVisualTimer()
       clearTimeout(this.#pickWordTimeoutObject)
 
       this.#currentWord = this.#currentPickList[index]
-      this.emit('word-picked', this.#getCurrentPlayerInTurnID(), this.#currentWord)
+      this.emit('word-picked', this.getCurrentPlayerInTurnID(), this.#currentWord)
       this.#hiddenWord = helper.hideWordWithUnderscore(this.#currentWord)
 
       this.#startVisualTimer(this.#turnDuration)
@@ -188,8 +189,8 @@ module.exports = class extends EventEmitter {
     this.#playerList.get(id).points += this.#currentTurnPoints
 
     // Player currently in turn (coder)
-    this.#currentTurnPlayerList.get(this.#getCurrentPlayerInTurnID()).currentPoints += this.#pointsDecrementer
-    this.#playerList.get(this.#getCurrentPlayerInTurnID()).points += this.#pointsDecrementer
+    this.#currentTurnPlayerList.get(this.getCurrentPlayerInTurnID()).currentPoints += this.#pointsDecrementer
+    this.#playerList.get(this.getCurrentPlayerInTurnID()).points += this.#pointsDecrementer
 
     // Calculate positions (TEMPORARY IMPEMENTATION, same points will result in a draw for now.)
     const positionsSet = new Set()
@@ -222,17 +223,17 @@ module.exports = class extends EventEmitter {
     }
   }
   removePlayer(id) {
-    if (id === this.#getCurrentPlayerInTurnID()) this.#endTurn(true)
+    if (id === this.getCurrentPlayerInTurnID()) this.#endTurn(true)
     this.#currentTurnPlayerList.delete(id)
     this.#playerList.delete(id)
     this.#playerIDArray = Array.from(this.#playerList.keys())
   }
 
   hasPlayerAnswered(id) {
-    return this.#turnIsOngoing && this.#currentTurnPlayerList.has(id) && id !== this.#getCurrentPlayerInTurnID()
+    return this.#turnIsOngoing && this.#currentTurnPlayerList.has(id) && id !== this.getCurrentPlayerInTurnID()
   }
   checkPlayerMessage(id, message) {
-    if (id === this.#getCurrentPlayerInTurnID() || this.hasPlayerAnswered(id)) return false
+    if (id === this.getCurrentPlayerInTurnID() || this.hasPlayerAnswered(id)) return false
     if (message === this.#currentWord) {
       this.#addPoints(id)
       this.emit('correct-answer', this.#playerList.get(id).displayName)

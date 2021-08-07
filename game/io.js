@@ -61,9 +61,9 @@ module.exports = async (fastify, opts) => {
     fastify.io.to(roomName).emit('server-send-message', 'message-info', displayName, 'tersambung!')
 
     // Handle the client sending code from the code editor
-    // Potential fault: Another player could disable read-only Monaco Editor and 'take over'
+    // TEMPORARY IMPLEMENTATION: Might be unoptimized.
     socket.on('client-send-code', (codeEditorValue) => {
-      socket.to(roomName).emit('server-send-code', codeEditorValue)
+      if (socket.id === game.getCurrentPlayerInTurnID()) socket.to(roomName).emit('server-send-code', codeEditorValue)
     })
 
     // Handle the client picking the word to play
