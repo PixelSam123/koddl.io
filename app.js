@@ -1,7 +1,5 @@
 'use strict'
-
-// In the future, we can load constants with dotenv (npm)
-const PORT = process.env.PORT || 80
+require('dotenv').config()
 
 /** @type {import('fastify').FastifyInstance} */
 const fastify = require('fastify')({
@@ -38,7 +36,7 @@ fastify.register(require('fastify-autoload'), {
 })
 
 // Run the server!
-fastify.listen(PORT || 3000, '0.0.0.0', (err, address) => {
+fastify.listen(process.env.PORT || 3000, '0.0.0.0', (err, address) => {
   if (err) {
     fastify.log.error(err)
     process.exit(1)
