@@ -9,7 +9,7 @@ const fastify = require('fastify')({
 })
 const path = require('path')
 
-// Load Socket.IO and game.js (/play page handler) module which uses it
+// Load Socket.IO and io.js (/play page handler) module which uses it
 fastify.register(require('fastify-socket.io'), {
   serveClient: false,
 })
