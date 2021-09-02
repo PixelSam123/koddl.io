@@ -234,7 +234,7 @@ module.exports = class extends EventEmitter {
   }
   checkPlayerMessage(id, message) {
     if (id === this.getCurrentPlayerInTurnID() || this.hasPlayerAnswered(id)) return false
-    if (message === this.#currentWord) {
+    if (message.toLowerCase() === this.#currentWord) {
       this.#addPoints(id)
       this.emit('correct-answer', this.#playerList.get(id).displayName)
       return true
