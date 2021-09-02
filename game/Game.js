@@ -32,7 +32,7 @@ module.exports = class extends EventEmitter {
   #hiddenWord
 
   constructor(
-    turnDuration = 60,
+    turnDuration = 65,
     endTurnScreenDuration = 5,
     startRevealingCharsAfter = 15,
     roundCount = 3,
