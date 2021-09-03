@@ -9,7 +9,7 @@ This is currently in Indonesian - I might write a translation
 
 Please read this notice if you are forking/contributing to this project.
 
-The front-end implementation for this website might be heavily reworked in the future depending on a future decision with these potential choices.
+The front-end implementation for this website might be heavily reworked in the future depending on a decision with these potential choices.
 
 - Stay with a server view engine (ex. Nunjucks). This is the simplest implementation but it probably won't lead to a good developer experience.
 - Standalone SvelteKit (Svelte) front-end. Svelte is known for its speed and excellent developer experience, but there currently is no way to integrate Svelte SSR (server-side rendering) with Fastify (correct me if I'm wrong)
