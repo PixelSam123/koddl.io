@@ -3,7 +3,7 @@ require('dotenv').config()
 
 /** @type {import('fastify').FastifyInstance} */
 const fastify = require('fastify')({
-  logger: true,
+  logger: process.env.NODE_ENV !== 'production',
 })
 const path = require('path')
 
@@ -22,15 +22,14 @@ fastify.register(require('fastify-static'), {
   prefix: '/public/',
 })
 
-// Enable Nunjucks usage
-fastify.register(require('point-of-view'), {
-  engine: {
-    nunjucks: require('nunjucks'),
-  },
-  root: path.join(__dirname, 'views'),
-})
+// Enable NextJS integration
+fastify
+  .register(require('fastify-nextjs'), { dev: process.env.NODE_ENV !== 'production' })
+  .after(() => {
+    fastify.next('/*')
+  })
 
-// Autoload routes
+// Autoload non-Next routes
 fastify.register(require('fastify-autoload'), {
   dir: path.join(__dirname, 'routes'),
 })

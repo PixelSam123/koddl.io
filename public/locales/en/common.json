@@ -1,0 +1,8 @@
+{
+  "display_name": "Display Name",
+  "room_name": "Room Name",
+  "max_players": "Max Players",
+  "turn_duration": "Turn Duration (seconds)",
+  "round_count": "Round Count",
+  "word_choice_count": "Word Choice Count"
+}

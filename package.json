@@ -4,6 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
+    "build": "next build",
     "start": "node .",
     "dev": "nodemon . | pino-colada"
   },
@@ -12,16 +13,28 @@
   "license": "UNLICENSED",
   "dependencies": {
     "dotenv": "^10.0.0",
-    "fastify": "^3.19.2",
-    "fastify-autoload": "^3.8.0",
+    "fastify": "^3.20.2",
+    "fastify-autoload": "^3.8.1",
     "fastify-favicon": "^3.1.0",
-    "fastify-socket.io": "^2.0.0",
+    "fastify-nextjs": "^6.0.0",
+    "fastify-socket.io": "^2.0.1",
     "fastify-static": "^4.2.2",
-    "nunjucks": "^3.2.3",
-    "point-of-view": "^4.15.1"
+    "next": "^11.1.2",
+    "next-i18next": "^8.7.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
   },
   "devDependencies": {
+    "@tailwindcss/forms": "^0.3.3",
+    "@types/react": "^17.0.19",
+    "autoprefixer": "^10.3.4",
+    "eslint": "^7.32.0",
+    "eslint-config-next": "^11.1.2",
+    "eslint-config-prettier": "^8.3.0",
     "nodemon": "^2.0.12",
-    "pino-colada": "^2.1.0"
+    "pino-colada": "^2.1.0",
+    "prettier": "^2.3.2",
+    "tailwindcss": "^2.2.9",
+    "typescript": "^4.4.2"
   }
 }

@@ -1,0 +1,8 @@
+{
+  "display_name": "Nama Tampilan",
+  "room_name": "Nama Room",
+  "max_players": "Jumlah Pemain Maks",
+  "turn_duration": "Durasi Giliran (detik)",
+  "round_count": "Jumlah Ronde",
+  "word_choice_count": "Jumlah Pilihan Kata"
+}

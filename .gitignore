@@ -1,4 +1,11 @@
-# Dependency directories
+# dependencies
 node_modules
-# .env file
+
+# next.js
+.next
+
+# misc
+.DS_Store
+
+# local env files
 .env
