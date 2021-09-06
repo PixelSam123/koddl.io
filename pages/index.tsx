@@ -38,7 +38,7 @@ const Home: NextPage = () => {
         <title>koddl.io</title>
       </Head>
       <div className="h-screen flex flex-col items-center justify-center">
-        <h1 className="text-5xl font-bold">koddl.io</h1>
+        <h1 className="font-mono text-6xl font-bold">koddl.io</h1>
         <form onSubmit={handleSubmit} className="p-2 border-2 border-gray-600 flex gap-x-2">
           <div className="flex flex-col">
             <label htmlFor="display-name">{t('display_name')}</label>
@@ -60,7 +60,7 @@ const Home: NextPage = () => {
               </>
             )}
             <Button type="submit" extraClasses="mt-2 self-center">
-              Join {chosenGamemodeIsPublic ? 'Public' : 'Private'} Game
+              {chosenGamemodeIsPublic ? t('join_public_game') : t('join_private_game')}
             </Button>
           </div>
           {!chosenGamemodeIsPublic && (
@@ -81,7 +81,7 @@ const Home: NextPage = () => {
                 <Input
                   type="password"
                   id="password"
-                  placeholder="Leave blank for no password"
+                  placeholder={t('leave_blank_for_no_password')}
                   value={createRoomPassword}
                   onChange={(e) => setCreateRoomPassword(e.target.value)}
                 />
@@ -118,8 +118,11 @@ const Home: NextPage = () => {
           )}
         </form>
         <Button onClick={toggleChosenGamemode} extraClasses="mt-2">
-          Switch to {!chosenGamemodeIsPublic ? 'Public' : 'Private'} Game
+          {chosenGamemodeIsPublic ? t('switch_to_private_game') : t('switch_to_public_game')}
         </Button>
+      </div>
+      <div>
+        <h2 className="text-3xl font-bold">Test</h2>
       </div>
     </>
   )

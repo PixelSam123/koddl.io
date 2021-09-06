@@ -4,5 +4,10 @@
   "max_players": "Jumlah Pemain Maks",
   "turn_duration": "Durasi Giliran (detik)",
   "round_count": "Jumlah Ronde",
-  "word_choice_count": "Jumlah Pilihan Kata"
+  "word_choice_count": "Jumlah Pilihan Kata",
+  "join_public_game": "Masuk Game Publik",
+  "join_private_game": "Masuk Game Privat",
+  "switch_to_public_game": "Ganti ke Game Publik",
+  "switch_to_private_game": "Ganti ke Game Privat",
+  "leave_blank_for_no_password": "Kosongkan untuk No Password"
 }

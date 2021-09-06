@@ -4,5 +4,10 @@
   "max_players": "Max Players",
   "turn_duration": "Turn Duration (seconds)",
   "round_count": "Round Count",
-  "word_choice_count": "Word Choice Count"
+  "word_choice_count": "Word Choice Count",
+  "join_public_game": "Join Public Game",
+  "join_private_game": "Join Private Game",
+  "switch_to_public_game": "Switch to Public Game",
+  "switch_to_private_game": "Switch to Private Game",
+  "leave_blank_for_no_password": "Leave blank for no password"
 }
