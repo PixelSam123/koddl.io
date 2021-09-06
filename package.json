@@ -4,8 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "build": "next build",
-    "start": "node .",
+    "start": "next build && node .",
     "dev": "nodemon . | pino-colada"
   },
   "keywords": [],
