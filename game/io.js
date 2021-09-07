@@ -44,7 +44,7 @@ module.exports = async (fastify, opts) => {
         fastify.io.to(roomName).emit('server-send-playerlist', game.getPlayersArray())
         fastify.io
           .to(roomName)
-          .emit('server-send-message', 'message-success', answererDisplayName, 'berhasil menjawab!')
+          .emit('server-send-message', {type: 'message-success', displayName: answererDisplayName, content: 'berhasil menjawab!'})
       })
       game.on('visual-timer-tick', (timerNumber, hiddenWord) => {
         fastify.io.to(roomName).emit('server-send-timer-tick', timerNumber, hiddenWord)
@@ -58,7 +58,7 @@ module.exports = async (fastify, opts) => {
     game.addPlayer(socket.id, displayName)
     fastify.io.to(socket.id).emit('server-send-roundcount', game.getRoundCount())
     fastify.io.to(roomName).emit('server-send-playerlist', game.getPlayersArray())
-    fastify.io.to(roomName).emit('server-send-message', 'message-info', displayName, 'tersambung!')
+    fastify.io.to(roomName).emit('server-send-message', {type: 'message-info', displayName, content: 'tersambung!'})
 
     // Handle the client sending code from the code editor
     // TEMPORARY IMPLEMENTATION: Might be unoptimized.
@@ -78,9 +78,11 @@ module.exports = async (fastify, opts) => {
           .to(roomName)
           .emit(
             'server-send-message',
-            game.hasPlayerAnswered(socket.id) ? 'message-passed' : 'message',
-            displayName,
-            content
+            {
+              type: game.hasPlayerAnswered(socket.id) ? 'message-passed' : 'message',
+              displayName,
+              content
+            }
           )
       }
     })
@@ -94,7 +96,7 @@ module.exports = async (fastify, opts) => {
       } else {
         game.removePlayer(socket.id)
         fastify.io.to(roomName).emit('server-send-playerlist', game.getPlayersArray())
-        fastify.io.to(roomName).emit('server-send-message', 'message-info', displayName, 'keluar!')
+        fastify.io.to(roomName).emit('server-send-message', {type: 'message-info', displayName, content: 'keluar!'})
       }
     })
   })
