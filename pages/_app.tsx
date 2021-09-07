@@ -5,7 +5,7 @@ import '../styles/globals.css'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <div className="bg-yellow-100 min-h-screen">
+    <div className="bg-yellow-100 min-h-screen flex flex-col justify-center">
       <Component {...pageProps} />
     </div>
   )

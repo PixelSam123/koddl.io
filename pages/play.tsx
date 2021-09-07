@@ -100,7 +100,8 @@ const Play: NextPage = () => {
       <Head>
         <title>koddl.io - Play</title>
       </Head>
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 grid font-mono">
+      <div className="self-center grid font-mono
+      w-screen max-w-screen-xl h-[37.5rem] max-h-screen overflow-y-hidden">
         <div className="col-span-3 flex items-center justify-between gap-x-2 bg-yellow-50">
           <div className="w-max flex items-center">
             <p className="w-10 text-center text-3xl">{time}</p>
@@ -124,10 +125,8 @@ const Play: NextPage = () => {
             </div>
           ))}
         </div>
-        <div className="min-w-0 min-h-0 w-[512px] h-[512px]">
-          <Editor
-            defaultLanguage="javascript"
-          />
+        <div className="min-w-0 min-h-0">
+          <Editor defaultLanguage="javascript" />
         </div>
         <div className="flex flex-col justify-end bg-yellow-200">
           <div className="overflow-y-auto">
@@ -151,7 +150,7 @@ const Play: NextPage = () => {
               </p>
             ))}
           </div>
-          <form onSubmit={handleChatSubmit} className="flex">
+          <form onSubmit={handleChatSubmit} className="m-2 flex">
             <Input
               type="text"
               extraClasses="flex-grow"
