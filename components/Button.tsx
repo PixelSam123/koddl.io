@@ -9,8 +9,8 @@ interface ButtonProps {
 const Button: FC<ButtonProps> = ({ children, extraClasses, onClick, type }) => (
   <button
     onClick={onClick}
-    type={type || 'button'}
-    className={`bg-gray-600 hover:bg-gray-500 text-yellow-100 px-1 py-0.5 ${extraClasses || ''}`}
+    type={type}
+    className={`bg-gray-600 hover:bg-gray-500 text-yellow-100 px-1 py-0.5 rounded-none ${extraClasses || ''}`}
   >
     {children}
   </button>
