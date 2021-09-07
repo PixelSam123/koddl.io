@@ -9,5 +9,13 @@
   "join_private_game": "Join Private Game",
   "switch_to_public_game": "Switch to Public Game",
   "switch_to_private_game": "Switch to Private Game",
-  "leave_blank_for_no_password": "Leave blank for no password"
+  "leave_blank_for_no_password": "Leave blank for no password",
+  "how_to_play": "How to Play",
+  "pick_a_word": "Pick a Word",
+  "pick_a_word_description": "When it's your turn, you'll be prompted to pick between a number of words. What will you do with it?",
+  "code_exclamation": "Code!",
+  "code_exclamation_description": "Type a snippet of code in the code editor that serves as a clue for people to guess your chosen word, displayed in hidden form at the top of the screen. Characters in the hidden word will start randomly reveal itself as the game progresses.",
+  "what_if_not_your_turn": "What if it's not your turn?",
+  "what_if_not_your_turn_description": "Well, you type your answer in the chat box.",
+  "bingo_description": "If you answer correctly, you will be notified in the chat log and you will be added points, which you can see on the player list at the left side of the screen."
 }

@@ -9,5 +9,13 @@
   "join_private_game": "Masuk Game Privat",
   "switch_to_public_game": "Ganti ke Game Publik",
   "switch_to_private_game": "Ganti ke Game Privat",
-  "leave_blank_for_no_password": "Kosongkan untuk No Password"
+  "leave_blank_for_no_password": "Kosongkan untuk No Password",
+  "how_to_play": "Cara Bermain",
+  "pick_a_word": "Pilih Kata",
+  "pick_a_word_description": "Ketika sampai giliranmu, kamu akan diminta untuk memilih satu dari beberapa kata. Apa yang akan kamu lakukan dengan kata tersebut?",
+  "code_exclamation": "Ayo Koding!",
+  "code_exclamation_description": "Silahkan koding dalam kode editor untuk memberikan clue bagi pemain lain untuk menebak kata pilihanmu, yang tampil dalam bentuk tersembunyi di bagian atas layar. Karakter-karakter dalam kata tersembunyi tersebut akan perlahan muncul satu per satu.",
+  "what_if_not_your_turn": "Bagaimana jika sekarang bukan giliranmu?",
+  "what_if_not_your_turn_description": "Kamu perlu mengetikkan jawabanmu di kolom chat.",
+  "bingo_description": "Jika jawabanmu benar, kamu akan diberitahu dalam kotak chat dan poinmu akan bertambah, yang dapat dilihat di player list di bagian kiri layar."
 }

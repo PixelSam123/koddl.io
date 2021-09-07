@@ -121,8 +121,16 @@ const Home: NextPage = () => {
           {chosenGamemodeIsPublic ? t('switch_to_private_game') : t('switch_to_public_game')}
         </Button>
       </div>
-      <div>
-        <h2 className="text-3xl font-bold">Test</h2>
+      <div className="mx-2">
+        <h2 className="text-3xl font-bold text-center">{t('how_to_play')}</h2>
+        <h3 className="text-2xl font-bold">{t('pick_a_word')}</h3>
+        <p>{t('pick_a_word_description')}</p>
+        <h3 className="text-2xl font-bold">{t('code_exclamation')}</h3>
+        <p>{t('code_exclamation_description')}</p>
+        <h3 className="text-2xl font-bold">{t('what_if_not_your_turn')}</h3>
+        <p>{t('what_if_not_your_turn_description')}</p>
+        <h3 className="text-2xl font-bold">Bingo!</h3>
+        <p>{t('bingo_description')}</p>
       </div>
     </>
   )
