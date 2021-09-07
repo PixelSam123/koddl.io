@@ -2,10 +2,12 @@ import type { NextPage } from 'next'
 import type { FormEventHandler } from 'react'
 
 import Head from 'next/head'
-import Input from '../components/Input'
-import Button from '../components/Button'
+import Input from '../../components/Input'
+import Button from '../../components/Button'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
+import { io } from 'socket.io-client'
 import Editor from '@monaco-editor/react'
 
 interface PlayerInfo {
@@ -20,7 +22,9 @@ interface ChatInfo {
   content: string
 }
 
-const Play: NextPage = () => {
+const Room: NextPage = () => {
+  const router = useRouter()
+
   const [time, setTime] = useState(65)
   const [round, setRound] = useState(1)
   const [maxRound, setMaxRound] = useState(3)
@@ -91,17 +95,56 @@ const Play: NextPage = () => {
   const [chatfieldInput, setChatfieldInput] = useState('')
   const handleChatSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
-    console.log(chatfieldInput)
-    setChatfieldInput('')
+    if (chatfieldInput) {
+      console.log(chatfieldInput)
+      setChatfieldInput('')
+    }
   }
+
+  useEffect(() => {
+    const { room } = router.query
+    console.log(room) // HEY THERE, CONSOLE LOG HERE
+    if (room !== undefined) {
+      const socket = io({
+        query: {
+          room: room[0],
+          name: 'Test Name',
+        },
+      })
+
+      socket.on('server-send-code', (codeEditorValue) => {
+        console.log(codeEditorValue)
+      })
+
+      socket.on('server-send-message', (incomingChatMessage: ChatInfo) => {
+        setChatArray((prevChatArray) => [...prevChatArray, incomingChatMessage])
+      })
+
+      socket.on('server-send-timer-tick', (timerNumber: number, hiddenWord: string) => {
+        setTime(timerNumber)
+        setHiddenWord(hiddenWord)
+      })
+
+      socket.on('server-send-roundcount', ([currentRound, maxRoundCount]: number[]) => {
+        setRound(currentRound)
+        setMaxRound(maxRoundCount)
+      })
+
+      socket.on('server-send-playerlist', (playerList: PlayerInfo[]) => {
+        setPlayersArray(playerList)
+      })
+    }
+  }, [router.query])
 
   return (
     <>
       <Head>
         <title>koddl.io - Play</title>
       </Head>
-      <div className="self-center grid font-mono
-      w-screen max-w-screen-xl h-[37.5rem] max-h-screen overflow-y-hidden">
+      <div
+        className="self-center grid font-mono
+      w-screen max-w-screen-xl h-[37.5rem] max-h-screen overflow-y-hidden"
+      >
         <div className="col-span-3 flex items-center justify-between gap-x-2 bg-yellow-50">
           <div className="w-max flex items-center">
             <p className="w-10 text-center text-3xl">{time}</p>
@@ -165,4 +208,4 @@ const Play: NextPage = () => {
   )
 }
 
-export default Play
+export default Room
