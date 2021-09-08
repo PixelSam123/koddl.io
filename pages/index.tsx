@@ -5,16 +5,20 @@ import Head from 'next/head'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useState } from 'react'
+import { useRouter } from 'next/router'
 
 import Input from '../components/Input'
 import Button from '../components/Button'
 
 const Home: NextPage = () => {
   const { t } = useTranslation('common')
+  const router = useRouter()
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
-    console.log('submit test')
+    if (!chosenGamemodeIsPublic) {
+      router.push(`/play/${roomName}`)
+    }
   }
 
   const [chosenGamemodeIsPublic, setChosenGamemodeIsPublic] = useState(true)
