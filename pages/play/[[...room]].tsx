@@ -65,24 +65,9 @@ const Room: NextPage = () => {
   const [chatArray, setChatArray] = useState<ChatInfo[]>([
     {
       type: 'message-info',
-      displayName: 'Car',
-      content: 'tersambung!',
-    },
-    {
-      type: 'message',
-      displayName: 'Car',
-      content: 'halo',
-    },
-    {
-      type: 'message-success',
-      displayName: 'Sami',
-      content: 'berhasil menjawab!',
-    },
-    {
-      type: 'message-passed',
-      displayName: 'Sami',
-      content: 'LMAO TRY ANSEWRING',
-    },
+      displayName: 'koddl.io',
+      content: 'Welcome!',
+    }
   ])
   const [pickList, setPickList] = useState<string[]>([])
 
