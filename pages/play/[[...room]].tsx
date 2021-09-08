@@ -1,12 +1,14 @@
 import type { NextPage } from 'next'
 import type { FormEventHandler } from 'react'
+import type { OnMount } from '@monaco-editor/react'
+import type { editor } from 'monaco-editor'
 
 import Head from 'next/head'
 import Input from '../../components/Input'
 import Button from '../../components/Button'
 import SocketContext from '../../context/SocketContext'
 
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect, useContext, useRef } from 'react'
 import { useRouter } from 'next/router'
 import Editor from '@monaco-editor/react'
 
@@ -25,6 +27,11 @@ interface ChatInfo {
 const Room: NextPage = () => {
   const router = useRouter()
   const socket = useContext(SocketContext)
+
+  const editorRef = useRef<null | editor.IStandaloneCodeEditor>(null)
+  const handleEditorDidMount: OnMount = (editor) => {
+    editorRef.current = editor
+  }
 
   const [time, setTime] = useState(65)
   const [round, setRound] = useState(1)
@@ -62,8 +69,10 @@ const Room: NextPage = () => {
       content: 'LMAO TRY ANSEWRING',
     },
   ])
+  const [pickList, setPickList] = useState<string[]>([])
 
   const [chatfieldInput, setChatfieldInput] = useState('')
+
   const handleChatSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
     if (chatfieldInput) {
@@ -71,8 +80,12 @@ const Room: NextPage = () => {
       setChatfieldInput('')
     }
   }
+  const pickWord = (idx: number) => {
+    socket.emit('client-send-picked-word', idx)
+  }
 
   const [waitingForPlayers, setWaitingForPlayers] = useState(true)
+  const [wordChooser, setWordChooser] = useState('')
 
   useEffect(() => {
     const { room } = router.query
@@ -99,8 +112,26 @@ const Room: NextPage = () => {
         setMaxRound(maxRoundCount)
       })
 
+      socket.on('server-send-choosing-word', (chooserDisplayName) => {
+        setWordChooser(chooserDisplayName)
+      })
+
+      socket.on('server-send-picklist', (incomingPickList: string[]) => {
+        setWordChooser('')
+        setPickList(incomingPickList)
+      })
+
+      socket.on('server-send-hide-choosing-word', () => {
+        setWordChooser('')
+      })
+
+      socket.on('server-send-hide-picklist', (pickedWord: string) => {
+        setPickList([])
+      })
+
       socket.on('server-send-playerlist', (playerList: PlayerInfo[]) => {
         setPlayersArray(playerList)
+        if (playerList.length > 1) setWaitingForPlayers(false)
       })
     }
 
@@ -151,7 +182,30 @@ const Room: NextPage = () => {
               Waiting for players...
             </p>
           )}
-          <Editor defaultLanguage="javascript" />
+          {wordChooser && (
+            <p
+              className="absolute z-10 bg-gray-900 bg-opacity-50 w-full h-full text-white
+                        flex items-center justify-center"
+            >
+              {wordChooser} is choosing a word...
+            </p>
+          )}
+          {!!pickList.length && (
+            <p
+              className="absolute z-10 bg-gray-900 bg-opacity-50 w-full h-full text-white
+                        flex flex-col items-center justify-center"
+            >
+              Choose word
+              <div className="flex gap-x-2">
+                {pickList.map((word, idx) => (
+                  <Button key={idx} onClick={() => pickWord(idx)}>
+                    {word}
+                  </Button>
+                ))}
+              </div>
+            </p>
+          )}
+          <Editor defaultLanguage="javascript" onMount={handleEditorDidMount} />
         </div>
         <div className="flex flex-col justify-end bg-yellow-200">
           <div className="overflow-y-auto">
