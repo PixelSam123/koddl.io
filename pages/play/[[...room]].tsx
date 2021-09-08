@@ -23,6 +23,10 @@ interface ChatInfo {
   displayName: string
   content: string
 }
+interface TurnPoints {
+  displayName: string
+  currentPoints: number
+}
 
 const Room: NextPage = () => {
   const router = useRouter()
@@ -86,6 +90,7 @@ const Room: NextPage = () => {
 
   const [waitingForPlayers, setWaitingForPlayers] = useState(true)
   const [wordChooser, setWordChooser] = useState('')
+  const [pickedWord, setPickedWord] = useState('')
 
   useEffect(() => {
     const { room } = router.query
@@ -127,7 +132,15 @@ const Room: NextPage = () => {
 
       socket.on('server-send-hide-picklist', (pickedWord: string) => {
         setPickList([])
+        setPickedWord(pickedWord)
       })
+
+      socket.on(
+        'server-send-turn-pointslist',
+        (turnPointsList: TurnPoints[], turnAnswer: string) => {
+          setPickedWord('')
+        }
+      )
 
       socket.on('server-send-playerlist', (playerList: PlayerInfo[]) => {
         setPlayersArray(playerList)
@@ -157,7 +170,7 @@ const Room: NextPage = () => {
               Round {round} of {maxRound}
             </p>
           </div>
-          <p className="w-max text-lg tracking-widest">{hiddenWord}</p>
+          <p className="w-max text-lg tracking-widest">{pickedWord || hiddenWord}</p>
           <div className="w-max mr-2">Language Chooser/Your Word</div>
         </div>
         <div className="bg-yellow-200 w-max pr-2.5">
