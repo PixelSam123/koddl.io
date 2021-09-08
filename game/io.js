@@ -66,11 +66,15 @@ module.exports = async (fastify, opts) => {
         .to(roomName)
         .emit('server-send-message', { type: 'message-info', displayName, content: 'tersambung!' })
 
-      // Handle the client sending code from the code editor
+      // Handle the client sending code and language choice from the code editor
       // TEMPORARY IMPLEMENTATION: Might be unoptimized.
       socket.on('client-send-code', (codeEditorValue) => {
         if (socket.id === game.getCurrentPlayerInTurnID())
           socket.to(roomName).emit('server-send-code', codeEditorValue)
+      })
+      socket.on('client-send-language', (codeEditorLanguage) => {
+        if (socket.id === game.getCurrentPlayerInTurnID())
+          socket.to(roomName).emit('server-send-language', codeEditorLanguage)
       })
 
       // Handle the client picking the word to play

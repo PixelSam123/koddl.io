@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import type { FormEventHandler } from 'react'
+import type { ChangeEventHandler, FormEventHandler } from 'react'
 import type { OnChange, OnMount } from '@monaco-editor/react'
 import type { editor } from 'monaco-editor'
 
@@ -39,8 +39,14 @@ const Room: NextPage = () => {
   const handleEditorOnChange: OnChange = (value) => {
     if (pickedWord) socket.emit('client-send-code', value)
   }
+  const handleLangSelectorOnChange: ChangeEventHandler<HTMLSelectElement> = (e) => {
+    setEditorLanguage(e.target.value)
+    if (pickedWord) socket.emit('client-send-language', e.target.value)
+  }
 
   const [editorValue, setEditorValue] = useState('')
+  const [editorAndLangSelectorIsReadOnly, setEditorAndLangSelectorIsReadOnly] = useState(true)
+  const [editorLanguage, setEditorLanguage] = useState('javascript')
 
   const [time, setTime] = useState(65)
   const [round, setRound] = useState(1)
@@ -109,6 +115,10 @@ const Room: NextPage = () => {
         setEditorValue(codeEditorValue)
       })
 
+      socket.on('server-send-language', (incomingLanguage: string) => {
+        setEditorLanguage(incomingLanguage)
+      })
+
       socket.on('server-send-message', (incomingChatMessage: ChatInfo) => {
         setChatArray((prevChatArray) => [...prevChatArray, incomingChatMessage])
       })
@@ -141,6 +151,7 @@ const Room: NextPage = () => {
       socket.on('server-send-hide-picklist', (pickedWord: string) => {
         setPickList([])
         setPickedWord(pickedWord)
+        setEditorAndLangSelectorIsReadOnly(false)
       })
 
       socket.on(
@@ -148,6 +159,7 @@ const Room: NextPage = () => {
         (incomingTurnPointsList: TurnPoints[], turnAnswer: string) => {
           setPickedWord('')
           setTurnPointsList(incomingTurnPointsList)
+          setEditorAndLangSelectorIsReadOnly(true)
         }
       )
 
@@ -181,7 +193,14 @@ const Room: NextPage = () => {
             </p>
           </div>
           <p className="w-max text-lg tracking-widest">{pickedWord || hiddenWord}</p>
-          <div className="w-max mr-2">Language Chooser/Your Word</div>
+          <div className="w-max">
+            {pickedWord && 'Your Turn'}
+            <select value={editorLanguage} disabled={editorAndLangSelectorIsReadOnly} onChange={handleLangSelectorOnChange} className="h-9 py-0">
+              <option value="javascript">JavaScript</option>
+              <option value="php">PHP</option>
+              <option value="cpp">C++</option>
+            </select>
+          </div>
         </div>
         <div className="bg-yellow-200 w-max pr-2.5">
           {playersArray.map((player, idx) => (
@@ -248,10 +267,14 @@ const Room: NextPage = () => {
             onMount={handleEditorDidMount}
             onChange={handleEditorOnChange}
             value={editorValue}
+            options={{
+              readOnly: editorAndLangSelectorIsReadOnly,
+            }}
+            language={editorLanguage}
           />
         </div>
-        <div className="flex flex-col justify-end bg-yellow-200">
-          <div className="overflow-y-auto">
+        <div className="w-72 flex flex-col justify-end bg-yellow-200">
+          <div className="overflow-x-hidden">
             {chatArray.map((chat, idx) => (
               <p
                 key={idx}
