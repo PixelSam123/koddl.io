@@ -143,6 +143,7 @@ const Room: NextPage = () => {
         'server-send-turn-pointslist',
         (incomingTurnPointsList: TurnPoints[], turnAnswer: string) => {
           setPickedWord('')
+          setHiddenWord(turnAnswer)
           setTurnPointsList(incomingTurnPointsList)
           setEditorAndLangSelectorIsReadOnly(true)
         }
@@ -238,7 +239,7 @@ const Room: NextPage = () => {
                         flex flex-col items-center justify-center"
             >
               <p>Answer:</p>
-              <h3 className="text-lg font-bold">{'Answer Test'}</h3>
+              <h3 className="text-lg font-bold">{hiddenWord}</h3>
               {turnPointsList.map((player, idx) => (
                 <div key={idx} className="flex gap-x-2 justify-between">
                   <p>{player.displayName}</p>
