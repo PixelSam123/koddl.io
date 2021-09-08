@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import type { FormEventHandler } from 'react'
-import type { OnMount } from '@monaco-editor/react'
+import type { OnChange, OnMount } from '@monaco-editor/react'
 import type { editor } from 'monaco-editor'
 
 import Head from 'next/head'
@@ -36,6 +36,11 @@ const Room: NextPage = () => {
   const handleEditorDidMount: OnMount = (editor) => {
     editorRef.current = editor
   }
+  const handleEditorOnChange: OnChange = (value) => {
+    if (pickedWord) socket.emit('client-send-code', value)
+  }
+
+  const [editorValue, setEditorValue] = useState('')
 
   const [time, setTime] = useState(65)
   const [round, setRound] = useState(1)
@@ -91,6 +96,7 @@ const Room: NextPage = () => {
   const [waitingForPlayers, setWaitingForPlayers] = useState(true)
   const [wordChooser, setWordChooser] = useState('')
   const [pickedWord, setPickedWord] = useState('')
+  const [turnPointsList, setTurnPointsList] = useState<TurnPoints[]>([])
 
   useEffect(() => {
     const { room } = router.query
@@ -100,7 +106,7 @@ const Room: NextPage = () => {
       socket.emit('client-send-room-id', room[0])
 
       socket.on('server-send-code', (codeEditorValue) => {
-        console.log(codeEditorValue)
+        setEditorValue(codeEditorValue)
       })
 
       socket.on('server-send-message', (incomingChatMessage: ChatInfo) => {
@@ -118,6 +124,8 @@ const Room: NextPage = () => {
       })
 
       socket.on('server-send-choosing-word', (chooserDisplayName) => {
+        setTurnPointsList([])
+        setEditorValue('')
         setWordChooser(chooserDisplayName)
       })
 
@@ -137,8 +145,9 @@ const Room: NextPage = () => {
 
       socket.on(
         'server-send-turn-pointslist',
-        (turnPointsList: TurnPoints[], turnAnswer: string) => {
+        (incomingTurnPointsList: TurnPoints[], turnAnswer: string) => {
           setPickedWord('')
+          setTurnPointsList(incomingTurnPointsList)
         }
       )
 
@@ -151,6 +160,7 @@ const Room: NextPage = () => {
     return () => {
       console.log('socket turned off') // HEY THERE, CONSOLE.LOG HERE
       socket.off()
+      socket.emit('leave')
     }
   }, [socket, router.query])
 
@@ -204,11 +214,11 @@ const Room: NextPage = () => {
             </p>
           )}
           {!!pickList.length && (
-            <p
+            <div
               className="absolute z-10 bg-gray-900 bg-opacity-50 w-full h-full text-white
                         flex flex-col items-center justify-center"
             >
-              Choose word
+              <p>Choose word</p>
               <div className="flex gap-x-2">
                 {pickList.map((word, idx) => (
                   <Button key={idx} onClick={() => pickWord(idx)}>
@@ -216,9 +226,29 @@ const Room: NextPage = () => {
                   </Button>
                 ))}
               </div>
-            </p>
+            </div>
           )}
-          <Editor defaultLanguage="javascript" onMount={handleEditorDidMount} />
+          {!!turnPointsList.length && (
+            <div
+              className="absolute z-10 bg-gray-900 bg-opacity-50 w-full h-full text-white
+                        flex flex-col items-center justify-center"
+            >
+              <p>Answer:</p>
+              <h3 className="text-lg font-bold">{'Answer Test'}</h3>
+              {turnPointsList.map((player, idx) => (
+                <div key={idx} className="flex gap-x-2 justify-between">
+                  <p>{player.displayName}</p>
+                  <p>+{player.currentPoints}</p>
+                </div>
+              ))}
+            </div>
+          )}
+          <Editor
+            defaultLanguage="javascript"
+            onMount={handleEditorDidMount}
+            onChange={handleEditorOnChange}
+            value={editorValue}
+          />
         </div>
         <div className="flex flex-col justify-end bg-yellow-200">
           <div className="overflow-y-auto">
