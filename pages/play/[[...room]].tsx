@@ -4,10 +4,10 @@ import type { FormEventHandler } from 'react'
 import Head from 'next/head'
 import Input from '../../components/Input'
 import Button from '../../components/Button'
+import SocketContext from '../../context/SocketContext'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { useRouter } from 'next/router'
-import { io } from 'socket.io-client'
 import Editor from '@monaco-editor/react'
 
 interface PlayerInfo {
@@ -24,6 +24,7 @@ interface ChatInfo {
 
 const Room: NextPage = () => {
   const router = useRouter()
+  const socket = useContext(SocketContext)
 
   const [time, setTime] = useState(65)
   const [round, setRound] = useState(1)
@@ -33,40 +34,10 @@ const Room: NextPage = () => {
 
   const [playersArray, setPlayersArray] = useState<PlayerInfo[]>([
     {
-      displayName: 'Sami',
-      points: 39,
-      position: 1,
-      isInTurn: false,
-    },
-    {
-      displayName: 'Yu',
+      displayName: 'Example',
       points: 38,
-      position: 2,
+      position: 1,
       isInTurn: true,
-    },
-    {
-      displayName: 'Are',
-      points: 37,
-      position: 3,
-      isInTurn: false,
-    },
-    {
-      displayName: 'Breking',
-      points: 36,
-      position: 4,
-      isInTurn: false,
-    },
-    {
-      displayName: 'De',
-      points: 35,
-      position: 5,
-      isInTurn: false,
-    },
-    {
-      displayName: 'Car',
-      points: 34,
-      position: 6,
-      isInTurn: false,
     },
   ])
   const [chatArray, setChatArray] = useState<ChatInfo[]>([
@@ -96,21 +67,19 @@ const Room: NextPage = () => {
   const handleChatSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
     if (chatfieldInput) {
-      console.log(chatfieldInput)
+      socket.emit('client-send-message', chatfieldInput)
       setChatfieldInput('')
     }
   }
 
+  const [waitingForPlayers, setWaitingForPlayers] = useState(true)
+
   useEffect(() => {
     const { room } = router.query
     console.log(room) // HEY THERE, CONSOLE LOG HERE
+
     if (room !== undefined) {
-      const socket = io({
-        query: {
-          room: room[0],
-          name: 'Test Name',
-        },
-      })
+      socket.emit('client-send-room-id', room[0])
 
       socket.on('server-send-code', (codeEditorValue) => {
         console.log(codeEditorValue)
@@ -134,7 +103,12 @@ const Room: NextPage = () => {
         setPlayersArray(playerList)
       })
     }
-  }, [router.query])
+
+    return () => {
+      console.log('socket turned off') // HEY THERE, CONSOLE.LOG HERE
+      socket.off()
+    }
+  }, [socket, router.query])
 
   return (
     <>
@@ -168,7 +142,15 @@ const Room: NextPage = () => {
             </div>
           ))}
         </div>
-        <div className="min-w-0 min-h-0">
+        <div className="relative min-w-0 min-h-0">
+          {waitingForPlayers && (
+            <p
+              className="absolute z-10 bg-gray-900 bg-opacity-50 w-full h-full text-white
+              flex items-center justify-center"
+            >
+              Waiting for players...
+            </p>
+          )}
           <Editor defaultLanguage="javascript" />
         </div>
         <div className="flex flex-col justify-end bg-yellow-200">
