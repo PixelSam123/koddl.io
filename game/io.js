@@ -89,20 +89,24 @@ module.exports = async (fastify, opts) => {
         }
       })
 
-      // Emit playerlist when a player disconnects, delete Game instance if room goes empty.
-      socket.on('disconnect', (reason) => {
+      // Emit playerlist when a player leaves/disconnects, delete Game instance if room goes empty.
+      const leaveOrDisconnectHandler = (reason) => {
         if (fastify.io.of('/').adapter.rooms.get(roomName) === undefined) {
+          game.stop()
           games.delete(roomName)
           console.log(`GAME DSTRYD room: ${roomName}`)
           console.log(games)
         } else {
           game.removePlayer(socket.id)
+          if (!reason) socket.leave(roomName)
           fastify.io.to(roomName).emit('server-send-playerlist', game.getPlayersArray())
           fastify.io
             .to(roomName)
             .emit('server-send-message', { type: 'message-info', displayName, content: 'keluar!' })
         }
-      })
+      }
+      socket.on('leave', leaveOrDisconnectHandler)
+      socket.on('disconnect', leaveOrDisconnectHandler)
     })
   })
 

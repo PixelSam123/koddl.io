@@ -19,6 +19,7 @@ module.exports = class extends EventEmitter {
   #visualTimerObject
   #pickWordTimeoutObject
   #endTurnTimeoutObject
+  #resetTurnTimeoutObject
 
   #currentRoundNumber = 0
   #currentPlayerTurnIndex
@@ -155,7 +156,7 @@ module.exports = class extends EventEmitter {
       this.#startVisualTimer(this.#endTurnScreenDuration)
       if (this.#currentPlayerTurnIndex === this.#playerIDArray.length - 1) {
         // Condition above: if the current player turn index is the last one in the round
-        setTimeout(() => {
+        this.#resetTurnTimeoutObject = setTimeout(() => {
           if (this.#currentRoundNumber === this.#roundCount) {
             // Reset the entire game (points, position, round number) then start a new round and new turn.
             // TODO SAM: Will use the end turn screen until I implement a game ending screen.
@@ -171,7 +172,7 @@ module.exports = class extends EventEmitter {
           this.#startTurn()
         }, this.#endTurnScreenDuration * 1000)
       } else {
-        setTimeout(() => {
+        this.#resetTurnTimeoutObject = setTimeout(() => {
           this.#stopVisualTimer()
           // Increment current player turn index if turned wasn't ended because the player in turn disconnected, then start a new turn
           if (!playerInTurnDisconnected) this.#currentPlayerTurnIndex++
@@ -254,6 +255,13 @@ module.exports = class extends EventEmitter {
   getRoundCount() {
     // For the 'Round ... of ...' text
     return [this.#currentRoundNumber, this.#roundCount]
+  }
+
+  stop() {
+    this.#stopVisualTimer()
+    clearTimeout(this.#pickWordTimeoutObject)
+    clearTimeout(this.#endTurnTimeoutObject)
+    clearTimeout(this.#resetTurnTimeoutObject)
   }
 }
 // TODO SAM: Implement this somewhere! Make a (You) name marker.
