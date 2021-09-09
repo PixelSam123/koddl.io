@@ -97,7 +97,7 @@ const Room: NextPage = () => {
     if (room !== undefined && name) {
       socket.emit('client-send-room-id-and-name', room[0], name)
 
-      socket.on('server-send-room-not-found', () => {
+      socket.on('server-send-reject-game-join', () => {
         router.replace('/')
       })
 

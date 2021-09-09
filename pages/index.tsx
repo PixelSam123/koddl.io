@@ -101,13 +101,13 @@ const Home: NextPage = () => {
                 {/*  value={createRoomPassword}*/}
                 {/*  onChange={(e) => setCreateRoomPassword(e.target.value)}*/}
                 {/*/>*/}
-                <label htmlFor="max-players">{t('max_players')}</label>
+                {/* <label htmlFor="max-players">{t('max_players')}</label>
                 <Input
                   type="number"
                   id="max-players"
                   value={createRoomMaxPlayers}
                   onChange={(e) => setCreateRoomMaxPlayers(parseInt(e.target.value))}
-                />
+                /> */}
                 <label htmlFor="turn-duration">{t('turn_duration')}</label>
                 <Input
                   type="number"

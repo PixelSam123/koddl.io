@@ -81,9 +81,9 @@ module.exports = async (fastify, opts) => {
 
       /** @type {import('./Game')} */
       const game = games.get(roomName)
-
-      if (game === undefined) {
-        fastify.io.to(socket.id).emit('server-send-room-not-found')
+      // Temporary hardcoded 15 player limit
+      if (game === undefined || fastify.io.of('/').adapter.rooms.get(roomName).size > 15) {
+        fastify.io.to(socket.id).emit('server-send-reject-game-join')
         socket.leave(roomName)
       } else {
         // Add player to game instance and emit to player the round number, then emit globally the playerlist and 'Username connected!' message
