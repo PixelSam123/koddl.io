@@ -80,7 +80,7 @@ module.exports = {
   unhideRandomCharacterByChance(
     hiddenWord,
     originalWord,
-    oneInX = 7,
+    oneInX = 6,
     minHiddenCharsPercentage = 0.33
   ) {
     if (
