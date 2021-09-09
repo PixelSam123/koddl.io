@@ -111,6 +111,7 @@ const Room: NextPage = () => {
 
       socket.on('server-send-message', (incomingChatMessage: ChatInfo) => {
         setChatArray((prevChatArray) => [...prevChatArray, incomingChatMessage])
+        chatlogRef.current!.scrollTop = chatlogRef.current!.scrollHeight
       })
 
       socket.on('server-send-timer-tick', (timerNumber: number, hiddenWord: string) => {
@@ -167,6 +168,8 @@ const Room: NextPage = () => {
     }
   }, [socket, router])
 
+  const chatlogRef = useRef<null | HTMLDivElement>(null)
+
   return (
     <>
       <Head>
@@ -185,7 +188,7 @@ const Room: NextPage = () => {
           </div>
           <p className="w-max text-lg tracking-widest">{pickedWord || hiddenWord}</p>
           <div className="w-max">
-            {pickedWord && 'Your Turn'}
+            {pickedWord && 'Your Turn '}
             <select
               value={editorLanguage}
               disabled={editorAndLangSelectorIsReadOnly}
@@ -270,11 +273,11 @@ const Room: NextPage = () => {
           />
         </div>
         <div className="w-72 flex flex-col justify-end bg-yellow-200">
-          <div className="overflow-x-hidden">
+          <div ref={chatlogRef} className="overflow-x-hidden max-h-[512px] overflow-y-auto">
             {chatArray.map((chat, idx) => (
               <p
                 key={idx}
-                className={`bg-opacity-50 ${
+                className={`pl-2 bg-opacity-50 ${
                   chat.type === 'message-success'
                     ? 'bg-green-400'
                     : chat.type === 'message-info'
