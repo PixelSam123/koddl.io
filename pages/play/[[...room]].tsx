@@ -67,7 +67,7 @@ const Room: NextPage = () => {
       type: 'message-info',
       displayName: 'koddl.io',
       content: 'Welcome!',
-    }
+    },
   ])
   const [pickList, setPickList] = useState<string[]>([])
 
@@ -96,6 +96,10 @@ const Room: NextPage = () => {
 
     if (room !== undefined) {
       socket.emit('client-send-room-id', room[0])
+
+      socket.on('server-send-room-not-found', () => {
+        router.replace('/')
+      })
 
       socket.on('server-send-code', (codeEditorValue) => {
         setEditorValue(codeEditorValue)
@@ -161,7 +165,7 @@ const Room: NextPage = () => {
       socket.off()
       socket.emit('leave')
     }
-  }, [socket, router.query])
+  }, [socket, router])
 
   return (
     <>
@@ -182,7 +186,12 @@ const Room: NextPage = () => {
           <p className="w-max text-lg tracking-widest">{pickedWord || hiddenWord}</p>
           <div className="w-max">
             {pickedWord && 'Your Turn'}
-            <select value={editorLanguage} disabled={editorAndLangSelectorIsReadOnly} onChange={handleLangSelectorOnChange} className="h-9 py-0">
+            <select
+              value={editorLanguage}
+              disabled={editorAndLangSelectorIsReadOnly}
+              onChange={handleLangSelectorOnChange}
+              className="h-9 py-0"
+            >
               <option value="javascript">JavaScript</option>
               <option value="php">PHP</option>
               <option value="cpp">C++</option>

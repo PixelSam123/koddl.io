@@ -4,19 +4,27 @@ import type { FormEventHandler } from 'react'
 import Head from 'next/head'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { useRouter } from 'next/router'
 
 import Input from '../components/Input'
 import Button from '../components/Button'
+import SocketContext from '../context/SocketContext'
 
 const Home: NextPage = () => {
   const { t } = useTranslation('common')
   const router = useRouter()
+  const socket = useContext(SocketContext)
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
     if (!chosenGamemodeIsPublic) {
+      socket.emit('client-send-create-room-request', {
+        createRoomId: createRoomName,
+        turnDuration: createRoomTurnDuration,
+        roundCount: createRoomRoundCount,
+        pickListCount: createRoomWordChoiceCount,
+      })
       router.push(`/play/${roomName}`)
     }
   }
@@ -32,7 +40,7 @@ const Home: NextPage = () => {
   const [createRoomName, setCreateRoomName] = useState('')
   const [createRoomPassword, setCreateRoomPassword] = useState('')
   const [createRoomMaxPlayers, setCreateRoomMaxPlayers] = useState(10)
-  const [createRoomTurnDuration, setCreateRoomTurnDuration] = useState(60)
+  const [createRoomTurnDuration, setCreateRoomTurnDuration] = useState(65)
   const [createRoomRoundCount, setCreateRoomRoundCount] = useState(3)
   const [createRoomWordChoiceCount, setCreateRoomWordChoiceCount] = useState(3)
 
