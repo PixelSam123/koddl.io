@@ -33,7 +33,7 @@ const Home: NextPage = () => {
     }
   }
 
-  const [chosenGamemodeIsPublic, setChosenGamemodeIsPublic] = useState(true)
+  const [chosenGamemodeIsPublic, setChosenGamemodeIsPublic] = useState(false)
   const toggleChosenGamemode = () => {
     setChosenGamemodeIsPublic((prevChosenGamemodeIsPublic) => !prevChosenGamemodeIsPublic)
   }
@@ -93,14 +93,14 @@ const Home: NextPage = () => {
                   onChange={(e) => setCreateRoomName(e.target.value)}
                 />
                 <h3 className="font-bold mt-1">Options</h3>
-                <label htmlFor="password">Password</label>
-                <Input
-                  type="password"
-                  id="password"
-                  placeholder={t('leave_blank_for_no_password')}
-                  value={createRoomPassword}
-                  onChange={(e) => setCreateRoomPassword(e.target.value)}
-                />
+                {/*<label htmlFor="password">Password</label>*/}
+                {/*<Input*/}
+                {/*  type="password"*/}
+                {/*  id="password"*/}
+                {/*  placeholder={t('leave_blank_for_no_password')}*/}
+                {/*  value={createRoomPassword}*/}
+                {/*  onChange={(e) => setCreateRoomPassword(e.target.value)}*/}
+                {/*/>*/}
                 <label htmlFor="max-players">{t('max_players')}</label>
                 <Input
                   type="number"
@@ -136,9 +136,9 @@ const Home: NextPage = () => {
             </div>
           )}
         </form>
-        <Button onClick={toggleChosenGamemode} extraClasses="mt-2">
-          {chosenGamemodeIsPublic ? t('switch_to_private_game') : t('switch_to_public_game')}
-        </Button>
+        {/*<Button onClick={toggleChosenGamemode} extraClasses="mt-2">*/}
+        {/*  {chosenGamemodeIsPublic ? t('switch_to_private_game') : t('switch_to_public_game')}*/}
+        {/*</Button>*/}
       </div>
       <div className="mx-2">
         <h2 className="text-3xl font-bold text-center">{t('how_to_play')}</h2>
