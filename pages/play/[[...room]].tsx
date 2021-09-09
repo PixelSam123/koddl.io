@@ -198,6 +198,7 @@ const Room: NextPage = () => {
               <option value="javascript">JavaScript</option>
               <option value="php">PHP</option>
               <option value="cpp">C++</option>
+              <option value="python">Python</option>
             </select>
           </div>
         </div>
