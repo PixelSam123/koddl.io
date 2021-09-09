@@ -202,7 +202,7 @@ const Room: NextPage = () => {
             </select>
           </div>
         </div>
-        <div className="bg-yellow-200 w-max pr-2.5">
+        <div className="bg-yellow-200 w-max pr-2.5 max-h-[512px] overflow-y-auto">
           {playersArray.map((player, idx) => (
             <div key={idx} className="my-1 flex items-center leading-[1.125rem]">
               <p className={`w-10 text-center ${player.isInTurn ? 'font-bold' : ''}`}>
