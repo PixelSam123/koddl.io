@@ -7,9 +7,18 @@ interface InputProps {
   value: string | number
   onChange: ChangeEventHandler<HTMLInputElement>
   extraClasses?: string
+  required?: boolean
 }
 
-const Input: FC<InputProps> = ({ id, placeholder, type, value, onChange, extraClasses }) => (
+const Input: FC<InputProps> = ({
+  id,
+  placeholder,
+  type,
+  value,
+  onChange,
+  extraClasses,
+  required,
+}) => (
   <input
     type={type}
     className={`px-1 h-7 bg-yellow-100 border-gray-400 ${extraClasses || ''}`}
@@ -18,6 +27,7 @@ const Input: FC<InputProps> = ({ id, placeholder, type, value, onChange, extraCl
     placeholder={placeholder || ''}
     value={value}
     onChange={onChange}
+    required={required}
   />
 )
 

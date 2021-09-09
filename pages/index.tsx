@@ -63,6 +63,7 @@ const Home: NextPage = () => {
               id="display-name"
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}
+              required
             />
             {!chosenGamemodeIsPublic && (
               <>
