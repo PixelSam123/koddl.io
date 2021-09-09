@@ -19,13 +19,17 @@ const Home: NextPage = () => {
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
     if (!chosenGamemodeIsPublic) {
-      socket.emit('client-send-create-room-request', {
-        createRoomId: createRoomName,
-        turnDuration: createRoomTurnDuration,
-        roundCount: createRoomRoundCount,
-        pickListCount: createRoomWordChoiceCount,
-      })
-      router.push(`/play/${roomName}`)
+      if (createRoomName) {
+        socket.emit('client-send-create-room-request', {
+          createRoomId: createRoomName,
+          turnDuration: createRoomTurnDuration,
+          roundCount: createRoomRoundCount,
+          pickListCount: createRoomWordChoiceCount,
+        })
+        router.push(`/play/${createRoomName}?name=${displayName}`)
+      } else {
+        router.push(`/play/${roomName}?name=${displayName}`)
+      }
     }
   }
 
@@ -76,7 +80,7 @@ const Home: NextPage = () => {
             </Button>
           </div>
           {!chosenGamemodeIsPublic && (
-            <div>
+            <div className="flex flex-col items-center">
               <fieldset className="border border-gray-400 px-2 pb-2 flex flex-col">
                 <legend className="font-bold px-1 self-start text-center">
                   Create Private Game
@@ -126,6 +130,9 @@ const Home: NextPage = () => {
                   onChange={(e) => setCreateRoomWordChoiceCount(parseInt(e.target.value))}
                 />
               </fieldset>
+              <Button type="submit" extraClasses="mt-2">
+                Create & Join
+              </Button>
             </div>
           )}
         </form>
