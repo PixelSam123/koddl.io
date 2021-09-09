@@ -81,7 +81,7 @@ module.exports = {
     hiddenWord,
     originalWord,
     oneInX = 6,
-    minHiddenCharsPercentage = 0.33
+    minHiddenCharsPercentage = 0.25
   ) {
     if (
       this.randomIntInclusive(1, oneInX) === 1 &&
