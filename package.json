@@ -1,10 +1,11 @@
 {
   "name": "koddl.io",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "next build && node .",
+    "build": "next build",
+    "start": "node .",
     "dev": "nodemon . | pino-colada"
   },
   "keywords": [],
