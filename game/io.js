@@ -73,11 +73,11 @@ module.exports = async (fastify, opts) => {
       }
     })
 
-    socket.on('client-send-room-id', (roomId) => {
+    socket.on('client-send-room-id-and-name', (roomId, requestedName) => {
       const roomName = roomId
       socket.join(roomName)
 
-      const displayName = 'temporary-disp-name'
+      const displayName = requestedName
 
       /** @type {import('./Game')} */
       const game = games.get(roomName)

@@ -91,11 +91,11 @@ const Room: NextPage = () => {
   const [lastTurnAnswer, setLastTurnAnswer] = useState('')
 
   useEffect(() => {
-    const { room } = router.query
+    const { room, name } = router.query
     console.log(room) // HEY THERE, CONSOLE LOG HERE
 
-    if (room !== undefined) {
-      socket.emit('client-send-room-id', room[0])
+    if (room !== undefined && name) {
+      socket.emit('client-send-room-id-and-name', room[0], name)
 
       socket.on('server-send-room-not-found', () => {
         router.replace('/')
