@@ -12,6 +12,7 @@
   "author": "FADHsquared",
   "license": "UNLICENSED",
   "dependencies": {
+    "@headlessui/react": "^1.4.1",
     "@monaco-editor/react": "^4.2.2",
     "dotenv": "^10.0.0",
     "fastify": "^3.20.2",
