@@ -32,7 +32,7 @@ const Room: NextPage = () => {
   const [editorLanguage, setEditorLanguage] = useState<EditorLanguages>('javascript')
 
   const [time, setTime] = useState(65)
-  const [round, setRound] = useState(1)
+  const [currentRound, setCurrentRound] = useState(1)
   const [maxRound, setMaxRound] = useState(3)
 
   const [hiddenWord, setHiddenWord] = useState('________')
@@ -63,7 +63,7 @@ const Room: NextPage = () => {
       setChatInputValue('')
     }
   }
-  const pickWord = (idx: number) => {
+  const chooseWord = (idx: number) => {
     socket.emit('client-send-picked-word', idx)
   }
 
@@ -71,7 +71,7 @@ const Room: NextPage = () => {
   const [wordChooser, setWordChooser] = useState('')
   const [pickedWord, setPickedWord] = useState('')
   const [turnPointsList, setTurnPointsList] = useState<TurnResults[]>([])
-  const [lastTurnAnswer, setLastTurnAnswer] = useState('')
+  const [previousTurnAnswer, setPreviousTurnAnswer] = useState('')
 
   useEffect(() => {
     const { room, name } = router.query
@@ -103,7 +103,7 @@ const Room: NextPage = () => {
       })
 
       socket.on('server-send-roundcount', ([incomingCurrentRound, maxRoundCount]: number[]) => {
-        setRound(incomingCurrentRound)
+        setCurrentRound(incomingCurrentRound)
         setMaxRound(maxRoundCount)
       })
 
@@ -132,7 +132,7 @@ const Room: NextPage = () => {
         'server-send-turn-pointslist',
         (incomingTurnPointsList: TurnResults[], turnAnswer: string) => {
           setPickedWord('')
-          setLastTurnAnswer(turnAnswer)
+          setPreviousTurnAnswer(turnAnswer)
           setTurnPointsList(incomingTurnPointsList)
           setEditorAndLangSelectorIsReadOnly(true)
         }
@@ -160,7 +160,7 @@ const Room: NextPage = () => {
       </Head>
       <GameWindow
         timerTime={time}
-        currentRound={round}
+        currentRound={currentRound}
         maxRound={maxRound}
         pickedWord={pickedWord}
         hiddenWord={hiddenWord}
@@ -171,9 +171,9 @@ const Room: NextPage = () => {
         isWaitingForPlayers={waitingForPlayers}
         wordChooserPlayer={wordChooser}
         wordChoiceList={pickList}
-        chooseWordFunction={pickWord}
+        chooseWordFunction={chooseWord}
         turnResultsList={turnPointsList}
-        previousTurnAnswer={lastTurnAnswer}
+        previousTurnAnswer={previousTurnAnswer}
         editorOnChange={handleEditorOnChange}
         editorValue={editorValue}
         chatlogRef={chatlogRef}
