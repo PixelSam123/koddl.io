@@ -159,12 +159,14 @@ const GameWindow: FC<GameWindowProps> = ({
         >
           <p>Answer:</p>
           <h3 className="text-lg font-bold">{previousTurnAnswer}</h3>
-          {turnResultsList.map((player, idx) => (
-            <div key={idx} className="flex gap-x-2 justify-between">
-              <p>{player.displayName}</p>
-              <p>+{player.currentPoints}</p>
-            </div>
-          ))}
+          <div>
+            {turnResultsList.map((player, idx) => (
+              <div key={idx} className="flex gap-x-2 justify-between">
+                <p>{player.displayName}</p>
+                <p>+{player.currentPoints}</p>
+              </div>
+            ))}
+          </div>
         </div>
       )}
       <Editor
