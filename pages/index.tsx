@@ -1,5 +1,5 @@
 import type { GetStaticProps, NextPage } from 'next'
-import type { FormEventHandler } from 'react'
+import type { FormEventHandler, MouseEventHandler } from 'react'
 
 import Head from 'next/head'
 import { useTranslation } from 'next-i18next'
@@ -48,6 +48,10 @@ const Home: NextPage = () => {
   const [createRoomRoundCount, setCreateRoomRoundCount] = useState(3)
   const [createRoomWordChoiceCount, setCreateRoomWordChoiceCount] = useState(3)
 
+  const handleTakeTheTutorialButtonClick: MouseEventHandler<HTMLButtonElement> = () => {
+    router.push('/tutorial')
+  }
+
   return (
     <>
       <Head>
@@ -55,6 +59,9 @@ const Home: NextPage = () => {
       </Head>
       <div className="h-screen flex flex-col items-center justify-center">
         <h1 className="font-mono text-6xl font-bold">koddl.io</h1>
+        <Button onClick={handleTakeTheTutorialButtonClick} extraClasses="mb-2">
+          Take the Tutorial
+        </Button>
         <form onSubmit={handleSubmit} className="p-2 border-2 border-gray-600 flex gap-x-2">
           <div className="flex flex-col">
             <label htmlFor="display-name">{t('display_name')}</label>
