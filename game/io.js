@@ -3,9 +3,7 @@
 const Game = require('./Game')
 
 /**
- * @param {Object} fastify
- * @param {import('socket.io').Server} fastify.io
- * @param {import('pino').Logger} fastify.log
+ * @param {import('fastify').FastifyInstance} fastify
  */
 module.exports = async (fastify, opts) => {
   // Contains all current Game instances
