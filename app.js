@@ -1,8 +1,7 @@
 'use strict'
 require('dotenv').config()
 
-/** @type {import('fastify').FastifyInstance} */
-const fastify = require('fastify')({
+const fastify = require('fastify').default({
   logger: process.env.NODE_ENV !== 'production',
 })
 const path = require('path')
