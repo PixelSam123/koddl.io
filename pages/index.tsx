@@ -7,9 +7,9 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { useState, useContext } from 'react'
 import { useRouter } from 'next/router'
 
-import Input from '../components/Input'
-import Button from '../components/Button'
-import SocketContext from '../context/SocketContext'
+import Input from '../react/components/Input'
+import Button from '../react/components/Button'
+import SocketContext from '../react/context/SocketContext'
 
 const Home: NextPage = () => {
   const { t } = useTranslation('common')
