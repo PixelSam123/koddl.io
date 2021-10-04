@@ -21,7 +21,7 @@ const Input: FC<InputProps> = ({
 }) => (
   <input
     type={type}
-    className={`px-1 h-7 bg-yellow-100 border-gray-400 ${extraClasses || ''}`}
+    className={`px-1 h-7 bg-gray-50 border-gray-400 ${extraClasses || ''}`}
     min="0"
     id={id || ''}
     placeholder={placeholder || ''}

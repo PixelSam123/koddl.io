@@ -62,7 +62,10 @@ const Home: NextPage = () => {
         <Button onClick={handleTakeTheTutorialButtonClick} extraClasses="mb-2">
           Take the Tutorial
         </Button>
-        <form onSubmit={handleSubmit} className="p-2 border-2 border-gray-600 flex gap-x-2">
+        <form
+          onSubmit={handleSubmit}
+          className="p-3 bg-gray-100/80 backdrop-blur rounded-lg shadow-md flex gap-x-2"
+        >
           <div className="flex flex-col">
             <label htmlFor="display-name">{t('display_name')}</label>
             <Input
