@@ -6,11 +6,11 @@ import type {
   TurnResults,
   ChatInfo,
   EditorLanguages,
-} from '../../react/components/GameWindow'
+} from '../../components/GameWindow'
 
 import Head from 'next/head'
-import GameWindow from '../../react/components/GameWindow'
-import SocketContext from '../../react/context/SocketContext'
+import GameWindow from '../../components/GameWindow'
+import SocketContext from '../../context/SocketContext'
 
 import { useState, useEffect, useContext, useRef } from 'react'
 import { useRouter } from 'next/router'

@@ -1,9 +1,9 @@
 import type { AppProps } from 'next/app'
 
 import { appWithTranslation } from 'next-i18next'
-import '../react/styles/globals.css'
+import '../styles/globals.css'
 
-import SocketContext, { socket } from '../react/context/SocketContext'
+import SocketContext, { socket } from '../context/SocketContext'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
