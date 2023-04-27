@@ -3,6 +3,7 @@ node_modules
 
 # next.js
 .next
+next-env.d.ts
 
 # misc
 .DS_Store
