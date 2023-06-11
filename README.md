@@ -12,7 +12,7 @@ The front-end implementation for this website is being reworked using:
 
 ## Deployment links
 
-Heroku: <https://koddl-io.herokuapp.com>
+Azure: <https://koddl.azurewebsites.net>
 
 ## Running app locally
 
