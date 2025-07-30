@@ -1,4 +1,4 @@
-import type { FC, MouseEventHandler } from 'react'
+import type { FC, MouseEventHandler, PropsWithChildren } from 'react'
 
 interface ButtonProps {
   extraClasses?: string
@@ -6,7 +6,7 @@ interface ButtonProps {
   type?: 'button' | 'submit' | 'reset'
 }
 
-const Button: FC<ButtonProps> = ({ children, extraClasses, onClick, type }) => (
+const Button: FC<PropsWithChildren<ButtonProps>> = ({ children, extraClasses, onClick, type }) => (
   <button
     onClick={onClick}
     type={type}

@@ -16,27 +16,33 @@ fastify.register(require('./game/io'))
 fastify.register(require('fastify-favicon'), {
   path: path.join(__dirname, 'public'),
 })
-fastify.register(require('fastify-static'), {
+fastify.register(require('@fastify/static'), {
   root: path.join(__dirname, 'public'),
   prefix: '/public/',
 })
 
 // Enable NextJS integration
 fastify
-  .register(require('fastify-nextjs'), { dev: process.env.NODE_ENV !== 'production' })
+  .register(require('@fastify/nextjs'), { dev: process.env.NODE_ENV !== 'production' })
   .after(() => {
     fastify.next('/*')
   })
 
 // Autoload non-Next routes
-fastify.register(require('fastify-autoload'), {
+fastify.register(require('@fastify/autoload'), {
   dir: path.join(__dirname, 'routes'),
 })
 
 // Run the server!
-fastify.listen(process.env.PORT || 3000, '0.0.0.0', (err, address) => {
-  if (err) {
-    fastify.log.error(err)
-    process.exit(1)
-  }
-})
+fastify.listen(
+  {
+    port: process.env.PORT || 3000,
+    address: '0.0.0.0',
+  },
+  (err, address) => {
+    if (err) {
+      fastify.log.error(err)
+      process.exit(1)
+    }
+  },
+)

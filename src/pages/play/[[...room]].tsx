@@ -75,7 +75,6 @@ const Room: NextPage = () => {
 
   useEffect(() => {
     const { room, name } = router.query
-    console.log(room) // HEY THERE, CONSOLE LOG HERE
 
     if (room !== undefined && name) {
       socket.emit('client-send-room-id-and-name', room[0], name)
@@ -135,7 +134,7 @@ const Room: NextPage = () => {
           setPreviousTurnAnswer(turnAnswer)
           setTurnPointsList(incomingTurnPointsList)
           setEditorAndLangSelectorIsReadOnly(true)
-        }
+        },
       )
 
       socket.on('server-send-playerlist', (playerList: PlayerInfo[]) => {

@@ -59,9 +59,9 @@ const Home: NextPage = () => {
       </Head>
       <div className="h-screen flex flex-col items-center justify-center">
         <h1 className="font-mono text-6xl font-bold">koddl.io</h1>
-        <Button onClick={handleTakeTheTutorialButtonClick} extraClasses="mb-2">
+        {/* <Button onClick={handleTakeTheTutorialButtonClick} extraClasses="mb-2">
           Take the Tutorial
-        </Button>
+        </Button> */}
         <form
           onSubmit={handleSubmit}
           className="p-3 bg-gray-100/80 backdrop-blur rounded-lg shadow-md flex gap-x-2"

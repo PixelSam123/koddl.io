@@ -3,7 +3,7 @@ import type {
   Dispatch,
   FC,
   FormEventHandler,
-  LegacyRef,
+  Ref,
   SetStateAction,
 } from 'react'
 import type { OnChange } from '@monaco-editor/react'
@@ -49,7 +49,7 @@ interface GameWindowProps {
   previousTurnAnswer: string
   editorOnChange: OnChange
   editorValue: string
-  chatlogRef: LegacyRef<HTMLDivElement>
+  chatlogRef: Ref<HTMLDivElement>
   chatArray: ChatInfo[]
   chatFormOnSubmit: FormEventHandler<HTMLFormElement>
   chatInputValue: string
