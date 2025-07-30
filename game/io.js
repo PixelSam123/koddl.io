@@ -20,13 +20,21 @@ module.exports = async (fastify, opts) => {
         console.log(games)
       }
     }
-  }, 10000)
+  }, 60_000)
 
   fastify.io.on(
     'connection',
     /** @param {import('socket.io').Server} socket */
     (socket) => {
       socket.on('client-send-create-room-request', (createRoomOpts) => {
+        // Don't create room if settings are invalid
+        if (
+          createRoomOpts.roundCount < 1 ||
+          createRoomOpts.pickListCount < 2 ||
+          createRoomOpts.turnDuration < 1
+        ) {
+          return
+        }
         // Condition: Nobody has joined the room yet. Instantiate Game in as a new map value if so
         if (fastify.io.of('/').adapter.rooms.get(createRoomOpts.createRoomId) === undefined) {
           games.set(

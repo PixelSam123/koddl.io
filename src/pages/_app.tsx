@@ -8,7 +8,7 @@ import SocketContext, { socket } from '../context/SocketContext'
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <SocketContext.Provider value={socket}>
-      <div className="bg-blue-800 min-h-screen flex flex-col justify-center">
+      <div className="bg-slate-900 text-slate-100 min-h-screen">
         <Component {...pageProps} />
       </div>
     </SocketContext.Provider>

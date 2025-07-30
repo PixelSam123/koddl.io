@@ -76,7 +76,7 @@ const Room: NextPage = () => {
   useEffect(() => {
     const { room, name } = router.query
 
-    if (room !== undefined && name) {
+    if (room !== undefined && name && !socket.hasListeners('server-send-reject-game-join')) {
       socket.emit('client-send-room-id-and-name', room[0], name)
 
       socket.on('server-send-reject-game-join', () => {
@@ -107,8 +107,14 @@ const Room: NextPage = () => {
       })
 
       socket.on('server-send-choosing-word', (chooserDisplayName) => {
+        const currentReadOnlyState = editorAndLangSelectorIsReadOnly
+
         setTurnPointsList([])
+
+        setEditorAndLangSelectorIsReadOnly(false)
         setEditorValue('')
+        setEditorAndLangSelectorIsReadOnly(currentReadOnlyState)
+
         setWordChooser(chooserDisplayName)
       })
 
@@ -144,11 +150,9 @@ const Room: NextPage = () => {
     }
 
     return () => {
-      console.log('socket turned off') // HEY THERE, CONSOLE.LOG HERE
-      socket.off()
       socket.emit('leave')
     }
-  }, [socket, router])
+  }, [router, socket])
 
   const chatlogRef = useRef<null | HTMLDivElement>(null)
 
@@ -157,30 +161,32 @@ const Room: NextPage = () => {
       <Head>
         <title>koddl.io - Play</title>
       </Head>
-      <GameWindow
-        timerTime={time}
-        currentRound={currentRound}
-        maxRound={maxRound}
-        pickedWord={pickedWord}
-        hiddenWord={hiddenWord}
-        editorLanguage={editorLanguage}
-        editorAndLangSelectorIsReadOnly={editorAndLangSelectorIsReadOnly}
-        langSelectorOnChange={handleLangSelectorOnChange}
-        playerListArray={playersArray}
-        isWaitingForPlayers={waitingForPlayers}
-        wordChooserPlayer={wordChooser}
-        wordChoiceList={pickList}
-        chooseWordFunction={chooseWord}
-        turnResultsList={turnPointsList}
-        previousTurnAnswer={previousTurnAnswer}
-        editorOnChange={handleEditorOnChange}
-        editorValue={editorValue}
-        chatlogRef={chatlogRef}
-        chatArray={chatArray}
-        chatFormOnSubmit={handleChatSubmit}
-        chatInputValue={chatInputValue}
-        chatInputValueSetter={setChatInputValue}
-      />
+      <div className="grid min-h-screen place-items-center px-3">
+        <GameWindow
+          timerTime={time}
+          currentRound={currentRound}
+          maxRound={maxRound}
+          pickedWord={pickedWord}
+          hiddenWord={hiddenWord}
+          editorLanguage={editorLanguage}
+          editorAndLangSelectorIsReadOnly={editorAndLangSelectorIsReadOnly}
+          langSelectorOnChange={handleLangSelectorOnChange}
+          playerListArray={playersArray}
+          isWaitingForPlayers={waitingForPlayers}
+          wordChooserPlayer={wordChooser}
+          wordChoiceList={pickList}
+          chooseWordFunction={chooseWord}
+          turnResultsList={turnPointsList}
+          previousTurnAnswer={previousTurnAnswer}
+          editorOnChange={handleEditorOnChange}
+          editorValue={editorValue}
+          chatlogRef={chatlogRef}
+          chatArray={chatArray}
+          chatFormOnSubmit={handleChatSubmit}
+          chatInputValue={chatInputValue}
+          chatInputValueSetter={setChatInputValue}
+        />
+      </div>
     </>
   )
 }

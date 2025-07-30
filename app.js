@@ -36,10 +36,10 @@ fastify.register(require('@fastify/autoload'), {
 // Run the server!
 fastify.listen(
   {
-    port: process.env.PORT || 3000,
+    port: process.env.PORT || 3005,
     address: '0.0.0.0',
   },
-  (err, address) => {
+  (err) => {
     if (err) {
       fastify.log.error(err)
       process.exit(1)

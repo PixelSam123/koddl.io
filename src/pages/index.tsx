@@ -16,23 +16,6 @@ const Home: NextPage = () => {
   const router = useRouter()
   const socket = useContext(SocketContext)
 
-  const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault()
-    if (!chosenGamemodeIsPublic) {
-      if (createRoomName) {
-        socket.emit('client-send-create-room-request', {
-          createRoomId: createRoomName,
-          turnDuration: createRoomTurnDuration,
-          roundCount: createRoomRoundCount,
-          pickListCount: createRoomWordChoiceCount,
-        })
-        router.push(`/play/${createRoomName}?name=${displayName}`)
-      } else {
-        router.push(`/play/${roomName}?name=${displayName}`)
-      }
-    }
-  }
-
   const [chosenGamemodeIsPublic, setChosenGamemodeIsPublic] = useState(false)
   const toggleChosenGamemode = () => {
     setChosenGamemodeIsPublic((prevChosenGamemodeIsPublic) => !prevChosenGamemodeIsPublic)
@@ -52,19 +35,36 @@ const Home: NextPage = () => {
     router.push('/tutorial')
   }
 
+  const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault()
+    if (!chosenGamemodeIsPublic) {
+      if (createRoomName) {
+        socket.emit('client-send-create-room-request', {
+          createRoomId: createRoomName,
+          turnDuration: createRoomTurnDuration,
+          roundCount: createRoomRoundCount,
+          pickListCount: createRoomWordChoiceCount,
+        })
+        router.push(`/play/${createRoomName}?name=${displayName}`)
+      } else {
+        router.push(`/play/${roomName}?name=${displayName}`)
+      }
+    }
+  }
+
   return (
     <>
       <Head>
         <title>koddl.io</title>
       </Head>
-      <div className="h-screen flex flex-col items-center justify-center">
-        <h1 className="font-mono text-6xl font-bold">koddl.io</h1>
+      <div className="min-h-screen flex flex-col items-center justify-center pt-3">
+        <h1 className="font-mono text-6xl font-bold mb-3">koddl.io</h1>
         {/* <Button onClick={handleTakeTheTutorialButtonClick} extraClasses="mb-2">
           Take the Tutorial
         </Button> */}
         <form
           onSubmit={handleSubmit}
-          className="p-3 bg-gray-100/80 backdrop-blur rounded-lg shadow-md flex gap-x-2"
+          className="p-6 bg-slate-800 backdrop-blur rounded-2xl shadow-md flex flex-col sm:flex-row gap-3"
         >
           <div className="flex flex-col">
             <label htmlFor="display-name">{t('display_name')}</label>
@@ -86,13 +86,13 @@ const Home: NextPage = () => {
                 />
               </>
             )}
-            <Button type="submit" extraClasses="mt-2 self-center">
+            <Button type="submit" extraClasses="mt-3 self-center">
               {chosenGamemodeIsPublic ? t('join_public_game') : t('join_private_game')}
             </Button>
           </div>
           {!chosenGamemodeIsPublic && (
             <div className="flex flex-col items-center">
-              <fieldset className="border border-gray-400 px-2 pb-2 flex flex-col">
+              <fieldset className="border border-slate-600 rounded-2xl px-3 pb-3 flex flex-col">
                 <legend className="font-bold px-1 self-start text-center">
                   Create Private Game
                 </legend>
@@ -103,7 +103,7 @@ const Home: NextPage = () => {
                   value={createRoomName}
                   onChange={(e) => setCreateRoomName(e.target.value)}
                 />
-                <h3 className="font-bold mt-1">Options</h3>
+                <h3 className="font-bold mt-2">Options</h3>
                 {/*<label htmlFor="password">Password</label>*/}
                 {/*<Input*/}
                 {/*  type="password"*/}
@@ -151,7 +151,7 @@ const Home: NextPage = () => {
         {/*  {chosenGamemodeIsPublic ? t('switch_to_private_game') : t('switch_to_public_game')}*/}
         {/*</Button>*/}
       </div>
-      <div className="mx-2">
+      <div className="p-6 space-y-3 max-w-2xl mx-auto">
         <h2 className="text-3xl font-bold text-center">{t('how_to_play')}</h2>
         <h3 className="text-2xl font-bold">{t('pick_a_word')}</h3>
         <p>{t('pick_a_word_description')}</p>

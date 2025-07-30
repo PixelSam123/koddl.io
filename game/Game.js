@@ -12,7 +12,7 @@ module.exports = class extends EventEmitter {
   #pointsDecrementer
   #pointsLowLimit
 
-  #gameJoinCount = 0
+  #gameHasStarted = false
   #playerList = new Map()
   #playerIDArray = []
 
@@ -221,10 +221,10 @@ module.exports = class extends EventEmitter {
       position: 0,
     })
     this.#playerIDArray = Array.from(this.#playerList.keys())
-    this.#gameJoinCount++
-    if (this.#gameJoinCount >= 2 && this.#playerList.size >= 2) {
+    if (!this.#gameHasStarted && this.#playerIDArray.length >= 2) {
       this.#newRound()
       this.#startTurn()
+      this.#gameHasStarted = true
     }
   }
   removePlayer(id) {

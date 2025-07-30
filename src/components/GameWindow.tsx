@@ -1,11 +1,4 @@
-import type {
-  ChangeEventHandler,
-  Dispatch,
-  FC,
-  FormEventHandler,
-  Ref,
-  SetStateAction,
-} from 'react'
+import type { ChangeEventHandler, Dispatch, FC, FormEventHandler, Ref, SetStateAction } from 'react'
 import type { OnChange } from '@monaco-editor/react'
 
 import Editor from '@monaco-editor/react'
@@ -82,9 +75,9 @@ const GameWindow: FC<GameWindowProps> = ({
 }) => (
   <div
     className="self-center grid font-mono
-      w-screen max-w-screen-xl h-[37.5rem] max-h-screen overflow-y-hidden"
+      w-full max-w-screen-xl max-h-[min(37.5rem,calc(100vh-1.5rem))] h-full overflow-y-hidden"
   >
-    <div className="col-span-3 flex items-center justify-between gap-x-2 bg-yellow-50">
+    <div className="col-span-3 flex items-center justify-between gap-x-2 bg-slate-800 p-1.5 mb-1.5 rounded-2xl">
       <div className="w-max flex items-center">
         <p className="w-10 text-center text-3xl">{timerTime}</p>
         <p>
@@ -98,7 +91,7 @@ const GameWindow: FC<GameWindowProps> = ({
           value={editorLanguage}
           disabled={editorAndLangSelectorIsReadOnly}
           onChange={langSelectorOnChange}
-          className="h-9 py-0"
+          className="h-9 py-0 bg-slate-900 rounded-xl border-0 border-b-2 border-slate-700"
         >
           <option value="javascript">JavaScript</option>
           <option value="php">PHP</option>
@@ -107,7 +100,7 @@ const GameWindow: FC<GameWindowProps> = ({
         </select>
       </div>
     </div>
-    <div className="bg-yellow-200 w-44 pr-2.5 max-h-[563.5px] overflow-y-auto">
+    <div className="bg-slate-800 w-44 pr-3 max-h-[563.5px] overflow-y-auto rounded-l-2xl p-1.5">
       {playerListArray.map((player, idx) => (
         <div key={idx} className="my-1 flex items-center leading-[1.125rem]">
           <p className={`w-10 flex-shrink-0 text-center ${player.isInTurn ? 'font-bold' : ''}`}>
@@ -177,19 +170,20 @@ const GameWindow: FC<GameWindowProps> = ({
           readOnly: editorAndLangSelectorIsReadOnly,
         }}
         language={editorLanguage}
+        theme="vs-dark"
       />
     </div>
-    <div className="w-72 flex flex-col justify-end bg-yellow-200">
+    <div className="w-72 flex flex-col justify-end bg-slate-800 rounded-r-2xl">
       <div ref={chatlogRef} className="overflow-x-hidden max-h-[512px] overflow-y-auto">
         {chatArray.map((chat, idx) => (
           <p
             key={idx}
-            className={`pl-2 bg-opacity-50 ${
+            className={`pl-3 py-0.5 bg-opacity-50 ${
               chat.type === 'message-success'
                 ? 'bg-green-400'
                 : chat.type === 'message-info'
-                ? 'bg-blue-400'
-                : ''
+                  ? 'bg-blue-400'
+                  : ''
             }`}
           >
             <span className={`font-bold ${chat.type === 'message-passed' ? 'text-green-600' : ''}`}>
@@ -199,7 +193,7 @@ const GameWindow: FC<GameWindowProps> = ({
           </p>
         ))}
       </div>
-      <form onSubmit={chatFormOnSubmit} className="m-2 flex">
+      <form onSubmit={chatFormOnSubmit} className="m-2 flex gap-x-1.5">
         <Input
           type="text"
           extraClasses="flex-grow"
